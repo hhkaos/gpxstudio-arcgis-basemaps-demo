@@ -395,7 +395,7 @@ export default class Buttons {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 const keys = JSON.parse(xhr.responseText);
                 _this.routing_url = keys.routing_url;
-                _this.mapbox_style = 'mapbox://styles/mapbox/outdoors-v11';
+                _this.mapbox_style =  `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Streets?type=style`;
 
                 if (_this.embedding && urlParams.has('token')) {
                     _this.mapbox_token = urlParams.get('token');
@@ -403,8 +403,9 @@ export default class Buttons {
                         _this.mapbox_style = urlParams.get('mapbox-style');
                         _this.custom_style = true;
                     }
-                } else if (window.location.hostname != "localhost") _this.mapbox_token = keys.mapbox;
-                else _this.mapbox_token = keys.mapbox_dev;
+                } else if (window.location.hostname != "localhost") _this.mapbox_token = keys.arcgis;
+                else _this.mapbox_token = keys.arcgis_dev;
+                _this.mapbox_style+= `&token=${_this.mapbox_token}`;
 
                 // TILES
 
@@ -440,8 +441,8 @@ export default class Buttons {
                         else if (mapSource == 'outdoors' && urlParams.has('token') && _this.supportsWebGL()) _this.mapboxMap.addTo(_this.map);
                         else if (mapSource == 'satellite' && urlParams.has('token') && _this.supportsWebGL()) {
                             _this.mapboxMap.addTo(_this.map);
-                            _this.mapboxMap.options.style = "mapbox://styles/mapbox/satellite-v9";
-                            _this.mapboxMap.getMapboxMap().setStyle("mapbox://styles/mapbox/satellite-v9", {diff: false});
+                            _this.mapboxMap.options.style = "https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Imagery?type=style";
+                            _this.mapboxMap.getMapboxMap().setStyle("https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Imagery?type=style", {diff: false});
                         } else layers.openStreetMap.addTo(_this.map);
                     } else if (urlParams.has('token') && _this.supportsWebGL()) _this.mapboxMap.addTo(_this.map);
                     else layers.openStreetMap.addTo(_this.map);
@@ -603,7 +604,7 @@ export default class Buttons {
                             attribution: '&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
                             maxZoom: MAX_ZOOM,
                             accessToken: _this.mapbox_token,
-                            style: 'mapbox://styles/mapbox/outdoors-v11',
+                            style: `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Imagery?type=style&token=${_this.mapbox_token}`,
                             interactive: true,
                             minZoom: 1,
                             dragRotate: false,
@@ -745,9 +746,9 @@ export default class Buttons {
             const span = layerSelectors[i].nextSibling;
             if (span.textContent.endsWith("Mapbox Satellite")) {
                 _this.mapboxSatelliteSelector = layerSelectors[i];
-                _this.mapboxSatelliteSelector.checked = this.mapboxMap._map && (_this.mapboxMap.options.style == "mapbox://styles/mapbox/satellite-v9");
+                _this.mapboxSatelliteSelector.checked = this.mapboxMap._map && (_this.mapboxMap.options.style == `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Imagery?type=style&token=${_this.mapbox_token}`);
                 _this.mapboxSatelliteSelector.addEventListener('click', function (e) {
-                    _this.mapboxMap.getMapboxMap().setStyle("mapbox://styles/mapbox/satellite-v9", {diff: false});
+                    _this.mapboxMap.getMapboxMap().setStyle(`https://basemaps-api.arcgis.com/arcgis/rest/services/styles/ArcGIS:Imagery?type=style&token=${_this.mapbox_token}`, {diff: false});
                 });
                 if (!update && localStorage.hasOwnProperty('lastbasemap') && localStorage.getItem('lastbasemap') == 'mapbox-satellite') {
                     _this.mapboxSatelliteSelector.click();

@@ -1,5 +1,7 @@
 {
     "mapbox": "pk.eyJ1IjoidmNvcHBlIiwiYSI6ImNrYWliNHNrdzBvcGMyeG52NTFjMmI0aXEifQ.MF6KZDCvvWPCnODLpfHYUA",
     "mapbox_dev": "pk.eyJ1IjoiZ3B4c3R1ZGlvIiwiYSI6ImNrdHVoM2pjNTBodmUycG1yZTNwcnJ3MzkifQ.YZnNs9s9oCQPzoXAWs_SLg",
+    "arcgis": "<YOUR_API_KEY_HERE | Sign up for free: https://developers.arcgis.com/sign-up/>",
+    "arcgis_dev": "<YOUR_API_KEY_HERE | Sign up for free: https://developers.arcgis.com/sign-up/>",
     "routing_url": "https://routing.gpx.studio"
 }
